@@ -19,6 +19,7 @@ void setup() {
 
   pinMode(servo1, OUTPUT);
   pinMode(servo2, OUTPUT);
+
   delay(20);
 }
 
@@ -43,7 +44,7 @@ void loop() {
     digitalWrite(red, HIGH);
   }
 
-  // Dacă plouă și parbrizul e curat:
+  // Daca ploua si parbrizul e curat:
   if (rain < 950 && light < 250) {
     if (!wiperActive) {
       wiperStartTime = millis();

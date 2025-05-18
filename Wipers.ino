@@ -3,9 +3,6 @@ int yellow = 8;
 int green = 9;
 int white = 10;
 
-int servo1 = 5;
-int servo2 = 6;
-
 void setup() {
   Serial.begin(9600);
   pinMode(red, OUTPUT);
@@ -42,5 +39,3 @@ void loop() {
   delay(2000);
 
 }
-
-

@@ -6,6 +6,10 @@ int white = 10;
 int servo1 = 5;
 int servo2 = 6;
 
+unsigned long totalWiperTime = 0;
+unsigned long wiperStartTime = 0;
+bool wiperActive = false;
+
 void setup() {
   Serial.begin(9600);
   pinMode(red, OUTPUT);
@@ -13,6 +17,8 @@ void setup() {
   pinMode(green, OUTPUT);
   pinMode(white, OUTPUT);
 
+  pinMode(servo1, OUTPUT);
+  pinMode(servo2, OUTPUT);
   delay(20);
 }
 
@@ -37,8 +43,12 @@ void loop() {
     digitalWrite(red, HIGH);
   }
 
-  // Daca ploua si parbrizul e curat:
+  // Dacă plouă și parbrizul e curat:
   if (rain < 950 && light < 250) {
+    if (!wiperActive) {
+      wiperStartTime = millis();
+      wiperActive = true;
+    }
 
     int times;
     if (rain > 800) {
@@ -58,11 +68,18 @@ void loop() {
     delay(times);
 
   } else {
+    
+    if (wiperActive) {
+      totalWiperTime += millis() - wiperStartTime;
+      wiperActive = false;
+    }
+
     pwmServo(servo1, 1200);
     pwmServo(servo2, 1200);
     delay(20);
   }
 
+  Serial.println(totalWiperTime/1000);
   delay(2000);
 
 }

@@ -1,3 +1,8 @@
+#include <LiquidCrystal.h>
+
+const int rs = 13, en = 11, d4= 12, d5= 3, d6= 2, d7= 4;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
 int red = 7;
 int yellow = 8;
 int green = 9;
@@ -11,6 +16,7 @@ unsigned long wiperStartTime = 0;
 bool wiperActive = false;
 
 void setup() {
+  lcd.begin(16, 2);
   Serial.begin(9600);
   pinMode(red, OUTPUT);
   pinMode(yellow, OUTPUT);
@@ -19,7 +25,6 @@ void setup() {
 
   pinMode(servo1, OUTPUT);
   pinMode(servo2, OUTPUT);
-
   delay(20);
 }
 
@@ -80,7 +85,8 @@ void loop() {
     delay(20);
   }
 
-  Serial.println(totalWiperTime/1000);
+  lcd.clear();
+  lcd.print(totalWiperTime/1000);
   delay(2000);
 
 }

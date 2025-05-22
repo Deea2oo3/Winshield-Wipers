@@ -58,11 +58,11 @@ void loop() {
 
     int times;
     if (rain > 800) {
-      times = 1200;
+      times = 1600;
     } else if (rain > 500) {
-      times = 600;
+      times = 800;
     } else {
-      times = 200;
+      times = 300;
     }
 
     pwmServo(servo1, 600);
@@ -86,8 +86,34 @@ void loop() {
   }
 
   lcd.clear();
-  lcd.print(totalWiperTime/1000);
-  delay(2000);
+
+  unsigned long displayTime = totalWiperTime;
+  if (wiperActive) {
+    displayTime += millis() - wiperStartTime;
+  }
+
+  unsigned long seconds = displayTime / 1000;
+  unsigned int hours = seconds / 3600;
+  unsigned int minutes = (seconds % 3600) / 60;
+  unsigned int secs = seconds % 60;
+
+  lcd.setCursor(0, 0);
+  lcd.print("Timp stergatoare:");
+  lcd.setCursor(0, 1);
+
+  if (hours < 10) lcd.print('0');
+  lcd.print(hours);
+  lcd.print('h');
+  lcd.print(':');
+
+  if (minutes < 10) lcd.print('0');
+  lcd.print(minutes);
+  lcd.print('m');
+  lcd.print(':');
+
+  if (secs < 10) lcd.print('0');
+  lcd.print(secs);
+  lcd.print('s');
 
 }
 
